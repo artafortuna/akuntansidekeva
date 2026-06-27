@@ -75,8 +75,45 @@ function konfirmasiHapus(id) {
     }
 }
 
-function editDompet(id, name) { 
-    db.transaction("dompet", "readwrite").objectStore("dompet").put({id: id, name: name}).onsuccess = loadDompet; 
+// PERBAIKAN: Fungsi Edit Dompet agar data di dalamnya tidak reset
+function editDompet(id, newName) { 
+    newName = newName.trim();
+    if(!newName) {
+        loadDompet(); // Kembalikan ke nama awal jika input kosong
+        return;
+    }
+
+    // Buka transaksi ke dua penyimpanan sekaligus
+    let tx = db.transaction(["dompet", "dataTabel"], "readwrite");
+    let dompetStore = tx.objectStore("dompet");
+    let dataStore = tx.objectStore("dataTabel");
+
+    // Ambil data dompet yang lama
+    dompetStore.get(id).onsuccess = e => {
+        let oldWallet = e.target.result;
+        
+        // Jika tidak ada perubahan nama, hentikan proses
+        if (!oldWallet || oldWallet.name === newName) return;
+
+        let oldName = oldWallet.name;
+
+        // 1. Simpan nama baru di daftar dompet
+        oldWallet.name = newName;
+        dompetStore.put(oldWallet);
+
+        // 2. Pindahkan isi data tabel dari nama lama ke nama baru
+        dataStore.get(oldName).onsuccess = e2 => {
+            let tabelData = e2.target.result;
+            if (tabelData) {
+                tabelData.id = newName;         // Ubah kuncinya ke nama baru
+                dataStore.put(tabelData);       // Simpan data dengan nama baru
+                dataStore.delete(oldName);      // Hapus data dengan nama lama
+            }
+        };
+    };
+
+    // Refresh tampilan setelah semua transaksi selesai
+    tx.oncomplete = () => loadDompet();
 }
 
 function buka(name) {
@@ -160,12 +197,11 @@ function showHome() {
     loadDompet(); 
 }
 
-// FUNGSI BARU UNTUK MENGHAPUS BARIS
 function hapusBaris(btn, name) {
     if(confirm("Hapus baris ini?")) {
         let row = btn.closest("tr");
-        row.remove(); // Menghapus elemen baris dari tabel (DOM)
-        simpan(name); // Menyimpan ulang tabel ke database tanpa baris tersebut
-        hitung(); // Menghitung ulang total saldo
+        row.remove(); 
+        simpan(name); 
+        hitung(); 
     }
 }
