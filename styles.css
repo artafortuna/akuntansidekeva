@@ -1,0 +1,122 @@
+:root { 
+    --main-pink: #FF85A1; 
+    --bg: #ffffff; 
+    --text: #000000; 
+}
+
+.dark { 
+    --main-pink: #FF6B8B; 
+    --bg: #121212; 
+    --text: #ffffff; 
+}
+
+body { 
+    font-family: 'Comic Neue', cursive; 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    margin: 0; 
+    overflow: hidden; 
+    background: var(--bg); 
+    color: var(--text); 
+}
+
+header { 
+    padding: 15px; 
+    background: var(--main-pink); 
+    color: white; 
+    text-align: center; 
+    font-weight: bold; 
+    font-size: 1.4rem; 
+    flex-shrink: 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px; 
+    border-radius: 0 0 20px 20px; 
+}
+
+.total-box { 
+    background: #FFE5EC; 
+    padding: 10px; 
+    text-align: center; 
+    font-weight: bold; 
+    color: var(--main-pink); 
+    border-bottom: 2px solid var(--main-pink); 
+    font-size: 1.2rem; 
+}
+
+.container { 
+    flex: 1; 
+    padding: 15px; 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+#listDompet { 
+    flex-grow: 1; 
+}
+
+.card { 
+    border: 3px solid var(--main-pink); 
+    padding: 15px; 
+    margin-bottom: 10px; 
+    border-radius: 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background: rgba(255, 133, 161, 0.05); 
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    border: 3px solid var(--main-pink); 
+    table-layout: auto; 
+    border-radius: 15px; 
+    overflow: hidden; 
+    margin-bottom: 10px;
+}
+
+th, td { 
+    border: 2px solid var(--main-pink); 
+    border-bottom: 3px solid var(--main-pink); 
+    padding: 10px; 
+    text-align: center; 
+    font-size: 1.1rem; 
+    white-space: nowrap; 
+    color: var(--text); 
+}
+
+.col-tgl { 
+    width: 80px; 
+    min-width: 80px; 
+}
+
+th { 
+    background: #FFE5EC; 
+    font-weight: bold; 
+    color: #000; 
+}
+
+input[type="date"] { 
+    border: none; 
+    width: 100%; 
+    font-size: 0.9rem; 
+    background: transparent; 
+    color: var(--text); 
+    font-family: inherit; 
+}
+
+button { 
+    padding: 8px 15px; 
+    background: var(--main-pink); 
+    color: white; 
+    border: none; 
+    border-radius: 15px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-family: inherit; 
+}
